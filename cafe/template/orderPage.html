@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% include 'nav.html' %}
+<h3>Your orders:</h3>
+<ol>
+{% for order in orders %}
+<li>Coffee : {{order.coffee}}</li>
+<li>Quantity : {{order.quantity}} </li>
+<br>
+{% endfor %}
+</ol>
+{% endblock %}

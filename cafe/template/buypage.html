@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% include 'nav.html' %}
+<div class="msg">
+{% if messages %}
+<ul>
+    {% for message in messages %}
+        <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+</div>
+<div class="BuyProduct">
+    <img src="{{ coffee.coffeeImage.url }}" alt="{{coffee.coffeeName}}">
+    <h2>{{coffee.coffeeName}}</h2>
+    <h2>Price : &#8377;{{ coffee.price }}</h2>
+    {% if coffee.availability %}
+        <h3 class="status">Available <i style="color: red;">Coffees left</i> <b style="color: red;">{{ coffee.totalCount }}</b></h3>
+    {% else %}
+        <h3 class="status">Not Available</h3>
+    {% endif %}
+    <form action="{% url 'buycoffee' coffee.id%}" method="post">
+        {% csrf_token %}
+        <label for="">How many coffees you want? </label>
+        <input type="number" placeholder="Count" id="count" name="count">
+        <button type="button" onclick="calculateTotal()" id="total-btn">Calculate Total</button>
+        <h5 id="totalPrice" style="margin-top: 2%;"></h5>
+        <h5 id="roundoff"></h5>
+        <hr id="totalhrline" style="display: none; margin:2% 0;">
+        <h3 id="total"></h3>
+        <button id="Buyaftercalc_btn">Buy</button>
+    </form>
+    <script>
+        function calculateTotal()
+        {
+            document.getElementById('totalhrline').style.display = 'block';
+            document.getElementById('Buyaftercalc_btn').style.display = 'block';
+            var price = {{ coffee.price }};
+            var count = parseInt(document.getElementById('count').value);
+            var total = price * count;
+            var roundoff = Number(Math.round(total) - total);
+            var round = Math.round(total);
+            document.getElementById('totalPrice').innerText = 'Total Price: ₹' + total.toFixed(2);
+            document.getElementById('roundoff').innerText = 'Round off: ₹' + roundoff.toFixed(2);
+            document.getElementById('total').innerText = 'Total: ₹' + round;
+        }
+    </script>
+</div>
+{% endblock %}

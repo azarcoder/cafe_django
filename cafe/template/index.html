@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+{% block content %}
+    {% include 'nav.html' %}
+    <div class="msg">
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    </div>
+    <h1>Available Coffee Products</h1>
+        {% for product in coffee %}
+            <div class="products">
+                <img src="{{ product.coffeeImage.url }}" alt="">
+                <p><b>{{ product.coffeeName }}</b></p>
+                <p><b>&#8377;{{ product.price}}</b></p>
+                <form method="post" action="{% url 'buy' product.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="Buy">Buy it</button>
+                 </form>
+            </div>
+        {% endfor %}
+{% endblock %}

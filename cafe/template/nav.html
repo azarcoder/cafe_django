@@ -1,0 +1,15 @@
+{% load static %}
+<nav id="topbar">
+    <div class="links">
+        <img src="{% static 'images/logo.jpg' %}" alt="">
+        <b>Tiger Cafe</b>
+        <a href="{% url 'main' %}">Home</a>
+        <a href="{% url 'orders' %}">Your Orders</a>
+        <a href="{% url 'login' %}">Login/Signup</a>
+    </div>
+    <div class="user">
+    {% if request.session.user_name %}
+        <p>Welcome, {{ request.session.user_name }}! <a href="{% url 'user_logout' %}">Logout</a></p>
+    {% endif %}
+    </div>
+</nav>
